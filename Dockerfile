@@ -17,4 +17,6 @@ RUN go build -o main .
 
 EXPOSE 8080
 
-ENTRYPOINT ["tail -f /dev/null"]
+RUN chmod +x bin/start.sh
+
+ENTRYPOINT ["/app/bin/start.sh"]
