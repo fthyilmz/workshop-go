@@ -1,0 +1,329 @@
+basePath: /v1
+definitions:
+  model.ErrorResponse:
+    properties:
+      messages:
+        items:
+          type: string
+        type: array
+    type: object
+  model.Furniture:
+    properties:
+      _id:
+        type: string
+      created_at:
+        type: string
+      price:
+        type: number
+      room:
+        type: string
+      title:
+        type: string
+    required:
+    - created_at
+    - price
+    - room
+    - title
+    type: object
+  model.FurnitureForm:
+    properties:
+      price:
+        type: number
+      room:
+        type: string
+      title:
+        type: string
+    required:
+    - price
+    - room
+    - title
+    type: object
+  model.LoginCredentials:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  model.Room:
+    properties:
+      _id:
+        type: string
+      apartment:
+        type: string
+      created_at:
+        type: string
+      title:
+        type: string
+    required:
+    - apartment
+    - created_at
+    - title
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: hi@fatih.im
+    name: API Support
+    url: http://fatih.im
+  title: Home Inventory Track API
+  version: "1.0"
+paths:
+  /furniture:
+    get:
+      consumes:
+      - application/json
+      operationId: furniture_list
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Furniture'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      security:
+      - Bearer: []
+      summary: List of furniture
+      tags:
+      - Furniture
+    post:
+      consumes:
+      - application/json
+      operationId: add_furniture
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/model.FurnitureForm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.FurnitureForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      security:
+      - Bearer: []
+      summary: Add furniture
+      tags:
+      - Furniture
+  /furniture/{id}:
+    delete:
+      consumes:
+      - application/json
+      operationId: delete_furniture
+      parameters:
+      - description: Furniture Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: "null"
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      security:
+      - Bearer: []
+      summary: Delete furniture
+      tags:
+      - Furniture
+    get:
+      consumes:
+      - application/json
+      operationId: furniture_get_by_id
+      parameters:
+      - description: Furniture Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Furniture'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      security:
+      - Bearer: []
+      summary: Get furniture by id
+      tags:
+      - Furniture
+    put:
+      consumes:
+      - application/json
+      operationId: update_furniture
+      parameters:
+      - description: Furniture Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/model.FurnitureForm'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.FurnitureForm'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      security:
+      - Bearer: []
+      summary: Update furniture
+      tags:
+      - Furniture
+  /login:
+    post:
+      consumes:
+      - application/json
+      operationId: login
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/model.LoginCredentials'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"token": XXX}'
+          schema:
+            type: string
+      summary: Login user
+      tags:
+      - Login
+  /room:
+    get:
+      consumes:
+      - application/json
+      operationId: room_list
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Room'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      security:
+      - Bearer: []
+      summary: List of room
+      tags:
+      - Room
+  /total/furniture:
+    get:
+      consumes:
+      - application/json
+      operationId: furniture_total_list
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      security:
+      - Bearer: []
+      summary: Total price of Furniture
+      tags:
+      - Total
+  /total/furniture/{apartmentId}:
+    get:
+      consumes:
+      - application/json
+      operationId: furniture_total_list_by_apartment_id
+      parameters:
+      - description: Apartment Id
+        in: path
+        name: apartmentId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      security:
+      - Bearer: []
+      summary: Total price of Furniture by apartmentId
+      tags:
+      - Total
+securityDefinitions:
+  Bearer:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

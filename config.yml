@@ -1,0 +1,10 @@
+server:
+  version: v0.1
+  addr: :8080
+  mode: debug
+  secret: adasdasdaddasda
+
+database:
+  host: mongo
+  port: 27017
+  timeout: 10
